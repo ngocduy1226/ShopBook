@@ -3,8 +3,11 @@ const mongoose = require("mongoose");
 const cors = require('cors');
 const { request, application } = require('express');
 const session = require('express-session');
-const contactsRouter = require('./app/routes/contact.route');
+const productsRouter = require('./app/routes/product.route');
 const accountsRouter = require('./app/routes/account.route');
+const brandsRouter = require('./app/routes/brand.route');
+
+
 const ApiError = require('./app/api-error');
 const app = express();
 
@@ -26,19 +29,14 @@ app.use(session({
 
 
 app.get("/", (req, res) => {
-    res.json({ message: "Welcome to contact book application." });
+    res.json({ message: "Welcome to product book application." });
 });
 
-app.use("/api/contacts", contactsRouter);
+app.use("/api/products",productsRouter);
 app.use("/api/accounts/", accountsRouter);
 
+app.use("/api/brands/", brandsRouter);
 
-
-// app.post('/register', (req,res,next) => {
-//     const username =  req.body.username;
-//     const password = req.body.password;
-//     console.log(username, password);
-// });
 
 // handle 404 response
 app.use((req, res, next) => {
