@@ -1,20 +1,20 @@
 const express = require("express");
 
-const contacts = require("../controllers/brand.controller");
+const brands = require("../controllers/brand.controller");
 
 const router = express.Router();
 
 
 
 router.route("/")
-  .get(contacts.findAll)
-  .post(contacts.create)
-  .delete(contacts.deleteAll);
+  .get(brands.findAll)
+  .post(brands.create)
+  .delete(brands.deleteAll);
 
 router.route("/:id")
-  .get(contacts.findOne)
-  .put(contacts.update)
-  .delete(contacts.delete);
+  .get(brands.findOne)
+  .put(brands.update)
+  .delete(brands.delete);
 
 
 module.exports = router;

@@ -8,10 +8,12 @@ class ProductService {
    extractProductData(payload) {
         const product = {
             nameProduct: payload.nameProduct,
-            price: payload.price,
+            description: payload.description,
             id_brand: payload.id_brand,
             imageProduct: payload.imageProduct,
-            description: payload.description,
+            author: payload.author,
+            publishing_company: payload.publishing_company,
+            supplier: payload.supplier,
             favorite: payload.favorite,
         };
         // Remove undefined fields

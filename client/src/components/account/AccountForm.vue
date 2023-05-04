@@ -1,0 +1,94 @@
+<template>
+    <div class="container row">
+        <div class="card col-md-6">
+       
+            <img id="" class="image-build"
+                src="https://thuthuatnhanh.com/wp-content/uploads/2021/11/Hinh-anh-cuon-sach-mo-ra-va-may-anh.jpeg" />
+        </div>
+        <div class="card col-md-6">
+
+            <img id="profile-img" class="profile-img-card"
+                src="https://cdn.pixabay.com/photo/2017/09/29/17/13/read-2799818_960_720.jpg" />
+            <p id="profile-name" class="profile-name-card"></p>
+
+            <Form @submit="submitAccount" :validation-schema="accountFormSchema" style="max-width: 500px;"
+                class="form-signin">
+                <div class="form-group">
+                    <label for="username">Tên</label>
+                    <Field name="username" type="text" class="form-control" v-model="accountLocal.username" />
+                    <ErrorMessage name="username" class="error-feedback" />
+                </div>
+                <div class="form-group">
+                    <label for="email">E-mail</label>
+                    <Field name="email" type="email" class="form-control" v-model="accountLocal.email" />
+                    <ErrorMessage name="email" class="error-feedback" />
+                </div>
+                <div class="form-group">
+                    <label for="password">Password</label>
+                    <Field name="password" type="password" class="form-control" v-model="accountLocal.password" />
+                    <ErrorMessage name="password" class="error-feedback" />
+                </div>
+
+                <div class="form-group text-center">
+                    <button class="btn btn-primary ">Lưu</button>
+                    <button v-if="accountLocal._id" type="button" class="ml-2 btn btn-danger" @click="deleteAccount">
+                        Xóa
+                    </button>
+                </div>
+            </Form>
+        </div><!-- /card-container -->
+    </div><!-- /container -->
+</template>
+
+
+<script>
+import * as yup from "yup";
+import { Form, Field, ErrorMessage } from "vee-validate";
+export default {
+    components: {
+        Form,
+        Field,
+        ErrorMessage,
+    },
+    emits: ["submit:account", "delete:account"],
+    props: {
+        account: { type: Object, required: true }
+    },
+    data() {
+        const accountFormSchema = yup.object().shape({
+            username: yup
+                .string()
+                .required("Tên phải có giá trị.")
+                .min(2, "Tên phải ít nhất 2 ký tự.")
+                .max(50, "Tên có nhiều nhất 50 ký tự."),
+            email: yup
+                .string()
+                .required("Email phải có giá trị.")
+                .email("E-mail không đúng.")
+                .max(50, "E-mail tối đa 50 ký tự."),
+            password: yup
+                .string()
+                .required("Password phải có giá trị.")
+                .min(2, "Password phải ít nhất 8 ký tự.")
+                .max(20, "Password tối đa 20 ký tự."),
+        });
+        return {
+            // Chúng ta sẽ không muốn hiệu chỉnh props, nên tạo biến cục bộ
+            // contactLocal để liên kết với các input trên form
+            accountLocal: this.account,
+            accountFormSchema,
+        };
+    },
+    methods: {
+        submitAccount() {
+            this.$emit("submit:account", this.accountLocal);
+        },
+        deleteAccount() {
+            this.$emit("delete:account", this.accountLocal.id);
+        },
+    },
+};
+</script>
+<style scoped>
+@import "@/assets/form.css";
+</style>
